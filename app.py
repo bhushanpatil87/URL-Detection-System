@@ -21,7 +21,7 @@ scan_history = []
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html",history=scan_history)
+    return render_template("index.html", history=scan_history)
 
 @app.route("/predict", methods=["POST"])
 def predict():
