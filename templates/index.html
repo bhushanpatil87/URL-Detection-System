@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureScan | Advanced URL Threat Detection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2a5bd7;
+      --primary-dark: #1a4abf;
+      --danger: #e63946;
+      --warning: #ff9f1c;
+      --safe: #2a9d8f;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --terminal-bg: #0d1117;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(42, 91, 215, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(230, 57, 70, 0.15) 0%, transparent 50%);
+    }
+
+    .navbar {
+      background-color: rgba(26, 26, 46, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      background: linear-gradient(90deg, var(--primary), var(--safe));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .scan-container {
+      width: 100%;
+      max-width: 800px;
+      background-color: rgba(26, 26, 46, 0.7);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .scan-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .scan-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .scan-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--safe));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .scan-subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .scan-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--light);
+      font-size: 0.9rem;
+    }
+
+    .input-field {
+      width: 94%;
+      padding: 1rem 1.5rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--light);
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(42, 91, 215, 0.3);
+    }
+
+    .input-field::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .scan-button {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .scan-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(42, 91, 215, 0.4);
+    }
+
+    .scan-button:active {
+      transform: translateY(0);
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      color: var(--gray);
+      font-size: 0.8rem;
+    }
+
+    .badge-icon {
+      color: var(--safe);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .feature-card {
+      background-color: rgba(26, 26, 46, 0.7);
+      border-radius: 8px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--light);
+    }
+
+    .feature-desc {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* History Section Styles */
+    .history-container {
+      width: 100%;
+      max-width: 1000px;
+      background-color: rgba(26, 26, 46, 0.7);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      margin-top: 2rem;
+    }
+
+    .history-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--light);
+      text-align: center;
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .history-table th {
+      background-color: rgba(42, 91, 215, 0.2);
+      color: var(--light);
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .history-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--gray);
+    }
+
+    .history-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .history-table .safe {
+      color: var(--safe);
+    }
+
+    .history-table .danger {
+      color: var(--danger);
+    }
+
+    .history-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.5s;
+      scroll-behavior: smooth;
+    }
+
+    .history-link:hover {
+      color: var(--light);
+    }
+
+    footer {
+      background-color: rgba(26, 26, 46, 0.9);
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-text {
+      color: var(--gray);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .scan-container {
+        padding: 1.5rem;
+      }
+
+      .scan-title {
+        font-size: 1.5rem;
+      }
+
+      .history-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">🛡️</span>
+      <span class="logo-text">SecureScan</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Home</a>
+      <a href="#history" class="nav-link">History</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="scan-container">
+      <div class="scan-header">
+        <h1 class="scan-title">URL Detection System</h1>
+        <p class="scan-subtitle">
+          Detect phishing attempts, malware distribution sites, and other web-based threats in real-time with our advanced scanning technology
+        </p>
+      </div>
+
+      <form action="/predict" method="post" class="scan-form">
+        <div class="form-group">
+          <label for="url" class="input-label">Enter URL to analyze</label>
+          <input type="text" id="url" name="url" class="input-field" placeholder="https://example.com">
+        </div>
+
+        <button type="submit" class="scan-button">Scan URL</button>
+
+        <div class="security-badge">
+          <span class="badge-icon">🔒</span>
+          <span>All scans are secure and private</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3 class="feature-title">Real-time Analysis</h3>
+        <p class="feature-desc">
+          Our system scans URLs in real-time using the latest threat intelligence databases
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Advanced Detection</h3>
+        <p class="feature-desc">
+          Machine learning models identify subtle phishing patterns that traditional scanners miss
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Fast Results</h3>
+        <p class="feature-desc">Get comprehensive threat analysis in seconds, not minutes</p>
+      </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-container" id="history">
+      <h2 class="history-title">Scan History</h2>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>URL</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for scan in history %}
+          <tr>
+            <td>{{ scan.timestamp }}</td>
+            <td>{{ scan.url }}</td>
+            <td class="{{ 'safe' if scan.result == 'Safe' else 'danger' }}">
+              {{ scan.result }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" class="history-link">Back to top ↑</a>
+    </div>
+  </main>
+
+  <footer>
+    <p class="footer-text">© 2025 SecureScan | Advanced Threat Protection System &nbsp;Developed by <strong>Bhushan Patil</strong></p>
+  </footer>
+</body>
+</html>
