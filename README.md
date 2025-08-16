@@ -64,6 +64,9 @@ The system is trained on a dataset of known phishing(url) and legitimate URLs, a
 <img width="1893" height="864" alt="Screenshot 2025-08-16 230905" src="https://github.com/user-attachments/assets/81d736b3-07d4-45ae-af65-953603571aa9" />
 
 <img width="1912" height="861" alt="Screenshot 2025-08-16 230928" src="https://github.com/user-attachments/assets/ba9027b0-0713-42a8-b312-048e23431b2a" />
+
+<img width="1900" height="866" alt="Screenshot 2025-08-16 233322" src="https://github.com/user-attachments/assets/e598c138-cc0b-465e-94c4-38b1d39e1f3a" />
+
 <img width="1913" height="866" alt="Screenshot 2025-08-16 230951" src="https://github.com/user-attachments/assets/63bdc7b8-8397-4a93-8587-2f43405b922a" />
 <img width="1352" height="635" alt="Screenshot 2025-08-16 231144" src="https://github.com/user-attachments/assets/dd066226-70a0-4fb7-93c2-63ac81db49bd" />
 <img width="1884" height="755" alt="Screenshot 2025-08-16 231206" src="https://github.com/user-attachments/assets/ac54f770-0d2d-42c1-9e69-236c59231d87" />
